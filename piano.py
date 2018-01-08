@@ -8,10 +8,13 @@ import subprocess
 class Piano(object):
     TERMINATE_DELAY = 0.3
 
-    def __init__(self, tones_dir, player):
+    def __init__(self, tones_dir=None, player='aplay'):
+        if tones_dir is None:
+            tones_dir = os.path.dirname(__file__) + '/tones'
+
         self._tones_dir = tones_dir
         self._player = player
-        self._tones = [os.path.basename(name).replace('.wav', '') for name in glob.glob('%s/*.wav' % tones_dir)]
+        self._tones = {os.path.basename(name).replace('.wav', '') for name in glob.glob('%s/*.wav' % tones_dir)}
         self._processes = {}
 
     def play(self, tone):

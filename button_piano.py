@@ -9,11 +9,13 @@ class ButtonPiano(Piano):
         self._buttons = buttons
 
         GPIO.setmode(GPIO.BOARD)
-        for tone, pin in buttons.items():
+        for pin in buttons.values():
             GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-            GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
 
     def run(self):
+    	for tone, pin in self._buttons.items():
+    		GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
+
         try:
             while True:
                 time.sleep(1)

@@ -16,7 +16,7 @@ class ButtonPiano(Piano):
         try:
             while True:
                 for tone, pin in self._buttons.items():
-                    GPIO.add_event_detect(pin, GPIO.RISING, lambda _: self.play(tone))
+                    GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
         except KeyboardInterrupt:
             GPIO.cleanup()
 

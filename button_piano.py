@@ -1,4 +1,4 @@
-import importlib.util
+import time
 import RPi.GPIO as GPIO
 from piano import Piano
 
@@ -9,14 +9,14 @@ class ButtonPiano(Piano):
         self._buttons = buttons
 
         GPIO.setmode(GPIO.BOARD)
-        for pin in buttons.keys():
+        for tone, pin in buttons.items():
             GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
 
     def run(self):
         try:
             while True:
-                for tone, pin in self._buttons.items():
-                    GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
+                time.sleep(0.1)
         except KeyboardInterrupt:
             GPIO.cleanup()
 

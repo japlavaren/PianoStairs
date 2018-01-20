@@ -25,14 +25,14 @@ class ButtonPiano(Piano):
 
 if __name__ == '__main__':
     buttons = {
-        'c1': 10,
-        'd': 11,
-        'e': 12,
-        'f': 13,
-        'g': 21,
-        'a': 22,
-        'b': 23,
-        'c': 24,
+        'c1': 29,
+        'd': 31,
+        'e': 33,
+        'f': 35,
+        'g': 37,
+        'a': 36,
+        'b': 38,
+        'c': 40,
     }
     piano = ButtonPiano(buttons)
     piano.run()

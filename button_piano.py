@@ -4,17 +4,17 @@ from piano import Piano
 
 
 class ButtonPiano(Piano):
-    def __init__(self, buttons, *args, **kwargs):
+    def __init__(self, pin_tones, *args, **kwargs):
         super(ButtonPiano, self).__init__(*args, **kwargs)
-        self._buttons = buttons
+        self._pin_tones = pin_tones
 
         GPIO.setmode(GPIO.BOARD)
-        for pin in buttons.values():
+        for pin in pin_tones.keys():
             GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     def run(self):
-        for tone, pin in self._buttons.items():
-            GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
+        for pin in self._pin_tones.keys():
+            GPIO.add_event_detect(pin, GPIO.FALLING, self._play_pin)
 
         try:
             while True:
@@ -22,17 +22,20 @@ class ButtonPiano(Piano):
         except KeyboardInterrupt:
             GPIO.cleanup()
 
+    def _play_pin(self, pin):
+        tone = self._pin_tones[pin]
+        self.play(tone)
+
 
 if __name__ == '__main__':
-    buttons = {
-        'c1': 7,
-        'd': 11,
-        'e': 13,
-        'f': 15,
-        'g': 12,
-        'a': 16,
-        'b': 18,
-        'c': 22,
-    }
-    piano = ButtonPiano(buttons)
+    piano = ButtonPiano(pin_tones={
+        7: 'c1',
+        11: 'd',
+        13: 'e',
+        15: 'f',
+        12: 'g',
+        16: 'a',
+        18: 'b',
+        22: 'c',
+    })
     piano.run()

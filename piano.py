@@ -5,6 +5,9 @@ import threading
 import subprocess
 
 
+DEVNULL = open(os.devnull, 'wb')
+
+
 class Piano(object):
     TERMINATE_DELAY = 0.3
 
@@ -24,7 +27,7 @@ class Piano(object):
         self._cancel_previous(tone)
 
         cmd = '%s %s/%s.wav' % (self._player, self._tones_dir, tone)
-        p = subprocess.Popen(cmd.split(), stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        p = subprocess.Popen(cmd.split(), stdout=DEVNULL, stderr=subprocess.STDOUT)
         self._processes[tone] = p
 
     def _cancel_previous(self, tone):

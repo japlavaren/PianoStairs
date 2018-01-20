@@ -5,7 +5,7 @@ from piano import Piano
 
 class ButtonPiano(Piano):
     def __init__(self, buttons, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(ButtonPiano, self).__init__(*args, **kwargs)
         self._buttons = buttons
 
         GPIO.setmode(GPIO.BOARD)
@@ -13,8 +13,8 @@ class ButtonPiano(Piano):
             GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     def run(self):
-    	for tone, pin in self._buttons.items():
-    		GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
+        for tone, pin in self._buttons.items():
+            GPIO.add_event_detect(pin, GPIO.FALLING, lambda _: self.play(tone))
 
         try:
             while True:

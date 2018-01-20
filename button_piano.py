@@ -14,7 +14,7 @@ class ButtonPiano(Piano):
 
     def run(self):
         for pin in self._pin_tones.keys():
-            GPIO.add_event_detect(pin, GPIO.FALLING, self._play_pin)
+            GPIO.add_event_detect(pin, GPIO.FALLING, self._play_pin, bouncetime=200)
 
         try:
             while True:
